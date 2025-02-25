@@ -8,7 +8,7 @@ import (
 )
 
 type IOrderEvent interface {
-	PublishToPayment(data []byte) error
+	PublishPaymentEvent(data []byte) error
 }
 type orderEvent struct {
 	log        *logrus.Logger
@@ -20,7 +20,7 @@ type orderEvent struct {
 func NewOrderEvent(log *logrus.Logger, chProducer *amqp091.Channel, ctx context.Context, viper *viper.Viper) IOrderEvent {
 	return &orderEvent{log: log, chProducer: chProducer, ctx: ctx, viper: viper}
 }
-func (e *orderEvent) PublishToPayment(data []byte) error {
+func (e *orderEvent) PublishPaymentEvent(data []byte) error {
 	message := amqp091.Publishing{
 		Body: data,
 	}
@@ -28,7 +28,7 @@ func (e *orderEvent) PublishToPayment(data []byte) error {
 	routeKey := e.viper.GetString("rabbitmq.queue.payment.route")
 	err := e.chProducer.PublishWithContext(e.ctx, exchange, routeKey, false, false, message)
 	if err != nil {
-		e.log.WithError(err).Error("failet publish message to queue payment")
+		e.log.WithError(err).Error("failed publish message to queue payment")
 		return err
 	}
 	return nil

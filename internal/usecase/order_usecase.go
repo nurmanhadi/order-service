@@ -59,7 +59,7 @@ func (s *orderUsecase) AddOrder(request *model.OrderRequestData) error {
 		return err
 	}
 	go func() {
-		err = s.orderEvent.PublishToPayment(orderJSON)
+		err = s.orderEvent.PublishPaymentEvent(orderJSON)
 		if err != nil {
 			s.log.WithField("error", err).Warn("failed to publish order event")
 		}
