@@ -1,0 +1,47 @@
+{
+    "app": {
+        "name": "order service",
+        "version": "1.0.0",
+        "prefork": true
+    },
+    "server": {
+        "host": "0.0.0.0",
+        "port": 3000
+    },
+    "db": {
+        "user": "root",
+        "password": "root",
+        "host": "localhost",
+        "post": "3306",
+        "dbname": "order_service",
+        "max_idle_conns": 10,
+        "max_open_conns": 100,
+        "conn_max_idletime": 5,
+        "conn_max_lifetime": 60
+    },
+    "rabbitmq": {
+        "user": "guest",
+        "password": "guest",
+        "host": "localhost",
+        "port": "5672",
+        "virtual_host": "order_processing_system",
+        "exchange": {
+            "name": "order.processing.system",
+            "type": "direct"
+        },
+        "queue": {
+            "notification": {
+                "route": "notification",
+                "type": "Quorum"
+            },
+            "order": {
+                "route": "order",
+                "type": "Quorum"
+            },
+            "payment": {
+                "route": "payment",
+                "type": "Quorum"
+            }
+        }
+    }
+}
