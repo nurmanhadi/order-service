@@ -1,14 +1,14 @@
 package router
 
 import (
-	"order-service/internal/delivery/rest"
+	"order-service/internal/delivery/http"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 type RouteConfig struct {
 	App          *fiber.App
-	OrderHandler rest.IOrderHandler
+	OrderHandler http.IOrderHandler
 }
 
 func (r *RouteConfig) Router() {

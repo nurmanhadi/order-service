@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"order-service/event"
-	"order-service/internal/delivery/rest"
-	"order-service/internal/delivery/rest/router"
+	"order-service/internal/delivery/http"
+	"order-service/internal/delivery/http/router"
 	"order-service/internal/repository"
 	"order-service/internal/usecase"
 
@@ -37,7 +37,7 @@ func Bootstrap(config *BootstrapConfig) {
 	orderUsecase := usecase.NewOrderUsecase(orderRepository, config.Validation, config.Log, orderEvent)
 
 	// handler
-	orderHandler := rest.NewOrderHandler(orderUsecase, config.Log)
+	orderHandler := http.NewOrderHandler(orderUsecase, config.Log)
 
 	routeConfig := &router.RouteConfig{
 		App:          config.App,
